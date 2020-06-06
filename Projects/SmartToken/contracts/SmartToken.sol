@@ -3,23 +3,23 @@ pragma solidity ^0.4.18;
 contract SmartToken {
 	mapping(address => uint) tokens;
 	
-	event OnValueChanged(address indexed _from, uint _value);
+	event OnValueChanged(address indexed sender, uint value);
 	
-	function depositToken(address recipient, uint value) returns (bool success) {
-		tokens[recipient] += value;
-		OnValueChanged(recipient, tokens[recipient]);
+	function depositToken(address receiver, uint value) returns (bool success) {
+		tokens[receiver] += value;
+		OnValueChanged(receiver, tokens[receiver]);
 		return true;
 	}
-	function withdrawToken(address recipient, uint value) returns (bool success) {
-		if ((tokens[recipient] - value) < 0) {
-			tokens[recipient] = 0;
+	function withdrawToken(address receiver, uint value) returns (bool success) {
+		if ((tokens[receiver] - value) < 0) {
+			tokens[receiver] = 0;
 		} else {
-			tokens[recipient] -= value;
+			tokens[receiver] -= value;
 		}
-		OnValueChanged(recipient, tokens[recipient]);
+		OnValueChanged(receiver, tokens[receiver]);
 		return true;
 	}
-	function getTokens(address recipient) constant returns (uint value) {
-		return tokens[recipient];
+	function getTokens(address receiver) constant returns (uint value) {
+		return tokens[receiver];
 	}
 }
